@@ -37,4 +37,5 @@ title('Magnitude |H(j\omega)|')
 % digrama de polos e zeros
 sys = tf(b,a);
 pzplot(sys);
+zplane(b,a);
 grid on
