@@ -7,7 +7,7 @@ Wp = 2*1000/Fs;
 % frequencia do inicio da faixa de rejeicao dividida por pi
 Wr = 2*1500/Fs;                           
 
-% filtro escolhido %
+% filtro escolhido 
 % Como temos 50db de atenuacao, utilizaremos a janela de hamming
 % que possui 53 dB de atenuacao
 
