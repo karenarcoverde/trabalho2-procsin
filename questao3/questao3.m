@@ -78,7 +78,7 @@ audiowrite('musica_contaminada_filtrada.wav',y1,FS);
 audiowrite('voz_contaminada_filtrada.wav',y2,FS);
 
 % Espectogramas
-N = 512;
+N = 256;
 window = hamming(N);
 Noverlap = N/2;
 figure('units', 'centimeters', 'position', [2, 2, 23, 10])
