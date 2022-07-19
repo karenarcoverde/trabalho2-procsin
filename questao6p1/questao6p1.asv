@@ -1,0 +1,49 @@
+% frequencia de amostragem
+Fs = 10000;
+
+% frequencia do fim da primeira faixa de rejeição dividida por pi
+Wr1 = 2*1000/Fs;                          
+
+% frequencia do inicio da faixa de passagem dividida por pi
+Wp1 = 2*1500/Fs;                           
+
+% frequencia do fim da faixa de passagem dividida por pi
+Wp2 = 2*2500/Fs;
+
+% frequencia do inicio da segunda faixa de rejeição dividida por pi
+Wr2 = 2*3000/Fs;
+
+rs1_db = -40;
+rs2_db = -50;
+rp_db = 1;
+
+rs1 = 10^(rs1_db/20);
+rs2 = 10^(rs2_db/20);
+rp = 10^(rp_db/20) - 1;
+
+%dev = [10^(-rs1_db/20) (10^(rp_db/20)-1)/(10^(rp_db/20)+1) 10^(-rs2_db/20)];
+dev = [rs1 (10^(rp_db/20)-1)/(10^(rp_db/20)+1) rs2];
+[n,fo,ao,w] = firpmord([Wr1 Wp1 Wp2 Wr2], [0 1 0], dev);
+b = firpm(n, fo, ao, w);               % b: coef. do numerador de H(z)
+a = 1;
+
+% resposta em frequencia
+[h,w] = freqz(b,a);                 
+freqz(b,a)                          
+return;
+% grafico da resposta em escala linear
+figure('units', 'centimeters', 'position', [3, 3, 20, 5])
+plot(w/pi,abs(h))
+grid on
+xlabel('Normalized Frequency (\times\pi rad/sample)')
+title('Magnitude |H(j\omega)|')
+
+% digrama de polos e zeros
+figure();
+sys = tf(b,a);
+pzplot(sys);
+grid on;
+
+figure();
+zplane(b,a);
+grid on

@@ -8,7 +8,7 @@ Wp = 2*1000/Fs;
 Wr = 2*1500/Fs;  
 
 rp_db = 0.25;
-rs_db = 50;
+rs_db = 55;
 dev = [(10^(rp_db/20)-1)/(10^(rp_db/20)+1) 10^(-rs_db/20)]; 
 
 A = 50; % atenuacao na faixa de rejeicao

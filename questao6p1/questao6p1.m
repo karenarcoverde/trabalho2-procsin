@@ -13,23 +13,18 @@ Wp2 = 2*2500/Fs;
 % frequencia do inicio da segunda faixa de rejeição dividida por pi
 Wr2 = 2*3000/Fs;
 
-% filtro escolhido 
-% Como temos 50db de atenuacao, utilizaremos a janela de hamming
-% que possui 53 dB de atenuacao
+rs1_db = -43; % para dar um margem
+rs2_db = -53; % para dar um margem
+rp_db = 1;
 
-% ordem do filtro - n 
-n = round(3.3*2/(Wp1 - Wr1)); 
+rs1 = 10^(rs1_db/20);
+rs2 = 10^(rs2_db/20);
+rp = 10^(rp_db/20) - 1;
 
-% freqs de corte
-Wn1 = (Wr1+Wp1)/2;
-Wn2 = (Wr2+Wp2)/2;
-
-% b: coeficientes do numerador de H(z)
-% filtro FIR passa-faixa
-b = fir1(n, [Wn1, Wn2], "bandpass", hamming(n+1));
-% a: coeficiente do denominador de H(z)
-a=1;
-
+dev = [10^(rs1_db/20) (10^(rp_db/20)-1)/(10^(rp_db/20)+1) 10^(rs2_db/20)];
+[n,fo,ao,w] = firpmord([Wr1 Wp1 Wp2 Wr2], [0 1 0], dev);
+b = firpm(n, fo, ao, w);               % b: coef. do numerador de H(z)
+a = 1;
 
 % resposta em frequencia
 [h,w] = freqz(b,a);                 
